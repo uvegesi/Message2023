@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="HU">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>A number of messages</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="nav-link" href="/messages">Home</a>
+</nav>
+<div class="container">
+    <h1>A number of messages</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Message</td>
+            <td>Sender</td>
+            <td>Id</td>
+        </tr>
+        </thead>
+        <tr data-th-each="message: ${anumofmsgs}">
+            <td data-th-text="${message.msg}"></td>
+            <td data-th-text="${message.author}"></td>
+            <td data-th-text="${message.msgNum}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

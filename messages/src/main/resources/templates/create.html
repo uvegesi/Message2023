@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create a new message</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/messages">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/create">Create a Message</a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <form action="#" method="POST" th:action="@{/create}" th:object="${message}">
+        <div class="form-group">
+            <label for="text">Message:</label>
+            <input id="text" type="text" th:field="*{text}" class="form-control" required>
+            <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="text-danger">
+            </div>
+        </div>
+        <div th:if="${message.author == null}" class="form-group">
+            <label for="author">Author:</label>
+            <input id="author" type="text" name="author" th:field="*{author}" class="form-control" required/>
+            <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="text-danger">
+            </div>
+        </div>
+        <div th:if="${message.author != null}" class="form-group">
+            <p>Welcome, <span th:text="${message.author}">User</span></p>
+            <label for="author">Author(!):</label>
+            <input type="text" name="author" th:field="*{author}" th:value="${message.author}"/>
+        </div>
+        <div class="form-group">
+            <label for="msgNum">Id:</label>
+            <input id="msgNum" type="text" th:field="*{msgNum}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Create message</button>
+    </form>
+</div>
+</body>
+</html>

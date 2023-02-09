@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All messages</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/messages">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/create">Create a Message</a>
+        </li>
+    </ul>
+</nav>
+<main class="container">
+    <h1>Messages</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Message</th>
+            <th>Sender</th>
+            <th>Sender ID</th>
+            <th>Date</th>
+            <th>Link to Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="message: ${messages}">
+            <td data-th-text="${message.msg}"></td>
+            <td data-th-text="${message.author}"></td>
+            <td data-th-text="${message.msgNum}"></td>
+            <td data-th-text="${{message.createDate}}"></td>
+            <td>
+                <a data-th-href="@{/onemessage/{num}(num=${message.msgNum})}">To message</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
