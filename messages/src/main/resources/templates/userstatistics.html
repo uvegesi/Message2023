@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <title>User statistics</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        .data {
+            display: inline-block;
+            margin: 10px;
+        }
+        .container {
+            text-align: center;
+        }
+        h3{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/messages">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/create">Create a Message</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/showuserstatistics">User Statistics</a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <h3>User Statistics</h3>
+    <div class="data">The number of messages in this session is:
+        <p data-th-text="${numofmsgsinasess}"></p>
+    </div>
+    <div class="data">The number of user names in this sessions is:
+        <p data-th-text="${numofusersinasess}"></p>
+    </div>
+    <div class="data">The number of messages from the users in this session is:
+        <p data-th-text="${counter}"></p>
+    </div>
+</div>
+</body>
+</html>

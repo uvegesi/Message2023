@@ -1,18 +1,14 @@
-package com.company.messages.controller;
+package com.company.messages.model;
 
 import com.company.messages.model.User;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@Scope(scopeName = WebApplicationContext.SCOPE_SESSION,
-        proxyMode = ScopedProxyMode.TARGET_CLASS)
-
+@SessionScope
 public class UserStatistics {
 
     private User user;

@@ -3,16 +3,13 @@ package com.company.messages.controller;
 import com.company.messages.dto.CreateMsgDto;
 import com.company.messages.model.Message;
 import com.company.messages.model.User;
+import com.company.messages.model.UserStatistics;
 import com.company.messages.service.MessageServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,10 +20,10 @@ import java.util.Map;
 public class MessageServiceController2 {
 
     private final MessageServiceImp messageService;
-    private UserStatistics userStatistics;
+    private final UserStatistics userStatistics;
 
     @Autowired
-    public MessageServiceController2(MessageServiceImp messageService, UserStatistics userStatistics) {
+    public MessageServiceController2(MessageServiceImp messageService, UserStatistics userStatistics, CreateMsgDto createMsgDto) {
         this.messageService = messageService;
         this.userStatistics = userStatistics;
     }
@@ -59,19 +56,14 @@ public class MessageServiceController2 {
         return "amessage";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @GetMapping(value = "/create")
     public String showCreateAMessage(Model model) {
         CreateMsgDto createMsgDto = new CreateMsgDto();
-        User user = new User();
-        userStatistics.setUser(user);
-        if (userStatistics.getUser().getName() == null) {
-            model.addAttribute("message", createMsgDto);
-        } else {
-            createMsgDto.setAuthor(userStatistics.getUser().getName());
-            model.addAttribute("message", createMsgDto);
+        User user = userStatistics.getUser();
+        if (user != null && user.getName() != null) {
+            createMsgDto.setAuthor(user.getName());
         }
-        //model.addAttribute("author", createMsgDto.getAuthor());
-
+        model.addAttribute("message", createMsgDto);
         return "create";
     }
 
@@ -80,15 +72,34 @@ public class MessageServiceController2 {
         if (br.hasErrors()) {
             return "create";
         }
-
         messageService.createMessage(msg);
         User u = new User(msg.getAuthor());
         userStatistics.setUser(u);
+        userStatistics.setMessageCounter(userStatistics.getMessageCounter() + 1);
+        Map<User, Integer> counter = userStatistics.getMsgCounter();
+        Integer count = counter.get(u);
+        if (count == null) {
+            count = 0;
+        }
+        counter.put(u, count + 1);
+        userStatistics.setMsgCounter(counter);
+        System.out.println(userStatistics.getMsgCounter().get(u));
         return "redirect:/messages";
     }
 
+    @GetMapping(path = "/showuserstatistics")
     public String listMessages(Model model) {
-        Map<User, Integer> map = userStatistics.getMsgCounter();
-        return "statistics";
+        model.addAttribute("numofmsgsinasess", userStatistics.getMessageCounter());
+        int n = userStatistics.getMsgCounter().keySet().size();
+        int counter = 0;
+        for (Message msg: messageService.getMessages()) {
+            for (User user : userStatistics.getMsgCounter().keySet())
+                if (msg.getAuthor().equals(user.getName())) {
+                    counter++;
+                }
+        }
+        model.addAttribute("numofusersinasess", n);
+        model.addAttribute("counter", counter);
+        return "userstatistics";
     }
 }

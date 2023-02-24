@@ -1,9 +1,8 @@
 package com.company.messages.service;
 
-import com.company.messages.controller.UserStatistics;
+import com.company.messages.model.UserStatistics;
 import com.company.messages.dto.CreateMsgDto;
 import com.company.messages.model.Message;
-import com.company.messages.model.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
